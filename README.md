@@ -4,22 +4,35 @@ Proyek website coffee shop modern dibangun dengan **React + Vite + Tailwind CSS 
 
 ---
 
-## 🚀 Cara Menjalankan
+## 🚀 Cara Clone & Menjalankan di Device Lain
 
-### 1. Install dependencies
+### 1. Clone repository
+```bash
+git clone https://github.com/fajar24si-hub/fajar-coffeeshop.git
+```
+
+### 2. Masuk ke folder project
+```bash
+cd fajar-coffeeshop
+```
+
+### 3. Install semua dependencies
 ```bash
 npm install
 ```
 
-### 2. Jalankan development server
+### 4. Jalankan development server
 ```bash
 npm run dev
 ```
 
-### 3. Buka di browser
+### 5. Buka di browser
 ```
 http://localhost:5173
 ```
+
+> **Catatan:** Pastikan sudah menginstall **Node.js v18+** dan **npm** di device kamu.  
+> Download Node.js di: https://nodejs.org
 
 ---
 
@@ -28,8 +41,7 @@ http://localhost:5173
 ```
 fajar-coffeeshop/
 ├── public/
-│   └── images/          ← Letakkan foto-foto di sini
-│       ├── hero.jpg
+│   └── images/          ← Semua foto sudah tersedia
 │       ├── interior.jpg
 │       ├── espresso.jpg
 │       ├── latte.jpg
@@ -45,18 +57,26 @@ fajar-coffeeshop/
 │   │   └── tailwind.css     ← Theme warna & animasi
 │   ├── components/
 │   │   ├── MenuCard.jsx     ← Kartu produk menu
-│   │   └── TestimonialCard.jsx
+│   │   ├── TestimonialCard.jsx
+│   │   └── Loading.jsx
 │   ├── data/
 │   │   └── menuData.js      ← Data menu & testimoni
 │   ├── layouts/
 │   │   ├── Navbar.jsx       ← Navigasi sticky
-│   │   └── Footer.jsx
+│   │   ├── Footer.jsx
+│   │   ├── MainLayout.jsx
+│   │   └── AuthLayout.jsx
 │   ├── pages/
-│   │   └── Home.jsx         ← Semua sections halaman utama
+│   │   ├── Home.jsx         ← Halaman utama
+│   │   └── auth/
+│   │       ├── Login.jsx
+│   │       ├── Register.jsx
+│   │       └── ForgotPassword.jsx
 │   └── main.jsx             ← Entry point React
 ├── index.html
 ├── vite.config.js
-└── package.json
+├── package.json
+└── package-lock.json        ← Jangan dihapus! Untuk konsistensi versi
 ```
 
 ---
@@ -72,6 +92,18 @@ fajar-coffeeshop/
 | **Testimonials** | Auto-rotate, click card, dot navigation |
 | **Contact** | Form validasi, info kontak, jam operasional |
 | **Footer** | Social links, quick links, copyright |
+| **Auth** | Halaman Login, Register, Forgot Password |
+
+---
+
+## 🛠️ Tech Stack
+
+- **React 19** — UI library
+- **Vite 8** — Build tool & dev server
+- **Tailwind CSS v4** — Styling dengan custom theme
+- **React Router DOM v7** — Client-side routing
+- **React Icons v5** — Icon library
+- **Google Fonts** — Playfair Display + Inter
 
 ---
 
@@ -79,42 +111,20 @@ fajar-coffeeshop/
 
 | Token | Hex | Kegunaan |
 |---|---|---|
-| `espresso` | `#1A0F07` | Background utama |
-| `coffee`   | `#2C1810` | Background sekunder |
-| `amber`    | `#C8963E` | Warna aksen / CTA |
-| `gold`     | `#E8B86D` | Highlight |
-| `cream`    | `#F5E6D3` | Teks utama |
-| `muted`    | `#8B7355` | Teks sekunder |
-| `card`     | `#2E1A0E` | Background kartu |
+| `espresso` | `#0D0703` | Background utama |
+| `coffee`   | `#1E0E06` | Background sekunder |
+| `amber`    | `#D4963A` | Warna aksen / CTA |
+| `gold`     | `#F0C56A` | Highlight |
+| `cream`    | `#F7ECD8` | Teks utama |
+| `muted`    | `#7A6247` | Teks sekunder |
+| `card`     | `#1A0A04` | Background kartu |
 
 ---
 
-## 📸 Foto Yang Dibutuhkan
+## ⚙️ Syarat System
 
-Letakkan semua foto di folder `public/images/`:
-
-| Nama File | Ukuran Disarankan | Keterangan |
-|---|---|---|
-| `hero.jpg` | 1920×1080 | Background section Hero |
-| `interior.jpg` | 800×600 | Foto kafe section About |
-| `espresso.jpg` | 400×400 | Produk: Espresso |
-| `latte.jpg` | 400×400 | Produk: Caramel Latte |
-| `cappuccino.jpg` | 400×400 | Produk: Cappuccino |
-| `cold-brew.jpg` | 400×400 | Produk: Cold Brew |
-| `frappe.jpg` | 400×400 | Produk: Mocha Frappe |
-| `matcha.jpg` | 400×400 | Produk: Matcha Latte |
-| `avatar-1.jpg` | 200×200 | Foto pelanggan 1 |
-| `avatar-2.jpg` | 200×200 | Foto pelanggan 2 |
-| `avatar-3.jpg` | 200×200 | Foto pelanggan 3 |
-
-> **Catatan:** Jika foto belum tersedia, website tetap tampil normal dengan **emoji placeholder** 🎉
-
----
-
-## 🛠️ Tech Stack
-
-- **React 19** — UI library
-- **Vite 8** — Build tool & dev server  
-- **Tailwind CSS v4** — Styling dengan custom theme
-- **React Icons** — Icon library (Feather + Font Awesome)
-- **Google Fonts** — Playfair Display + Poppins
+| Tool | Versi Minimum |
+|---|---|
+| Node.js | v18.0.0+ |
+| npm | v9.0.0+ |
+| Browser | Chrome / Firefox / Edge (latest) |
