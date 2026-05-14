@@ -1,0 +1,111 @@
+// src/data/menuData.js
+
+export const menuItems = [
+  {
+    id: 1,
+    name: "Espresso",
+    category: "Hot Coffee",
+    description: "Pure, intense espresso shot with rich crema. The foundation of all great coffee.",
+    price: 28000,
+    image: "/images/espresso.jpg",
+    emoji: "☕",
+    badge: "Classic",
+    rating: 4.9,
+    reviews: 240,
+  },
+  {
+    id: 2,
+    name: "Caramel Latte",
+    category: "Hot Coffee",
+    description: "Smooth espresso blended with steamed milk and sweet caramel drizzle on top.",
+    price: 42000,
+    image: "/images/latte.jpg",
+    emoji: "🥛",
+    badge: "Best Seller",
+    rating: 4.8,
+    reviews: 389,
+  },
+  {
+    id: 3,
+    name: "Cappuccino",
+    category: "Hot Coffee",
+    description: "Perfect balance of espresso, steamed milk, and thick velvety foam.",
+    price: 38000,
+    image: "/images/cappuccino.jpg",
+    emoji: "☕",
+    badge: "Popular",
+    rating: 4.7,
+    reviews: 312,
+  },
+  {
+    id: 4,
+    name: "Cold Brew",
+    category: "Iced Coffee",
+    description: "Steeped for 18 hours in cold water, smooth and less acidic with bold flavor.",
+    price: 45000,
+    image: "/images/cold-brew.jpg",
+    emoji: "🧊",
+    badge: "Refreshing",
+    rating: 4.8,
+    reviews: 275,
+  },
+  {
+    id: 5,
+    name: "Mocha Frappe",
+    category: "Iced Coffee",
+    description: "Blended espresso with chocolate, ice, and whipped cream. A sweet indulgence.",
+    price: 48000,
+    image: "/images/frappe.jpg",
+    emoji: "🍫",
+    badge: "Sweet Pick",
+    rating: 4.6,
+    reviews: 198,
+  },
+  {
+    id: 6,
+    name: "Matcha Latte",
+    category: "Non Coffee",
+    description: "Premium Japanese ceremonial matcha whisked with steamed oat milk.",
+    price: 40000,
+    image: "/images/matcha.jpg",
+    emoji: "🍵",
+    badge: "Healthy",
+    rating: 4.7,
+    reviews: 163,
+  },
+];
+
+export const categories = ["All", "Hot Coffee", "Iced Coffee", "Non Coffee"];
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Anisa Rahmawati",
+    role: "Food Blogger",
+    avatar: "/images/avatar-1.jpg",
+    emoji: "👩",
+    rating: 5,
+    review:
+      "Brewista adalah coffee shop terbaik yang pernah saya kunjungi. Kopinya selalu konsisten enak dan tempatnya sangat cozy untuk nongkrong atau kerja!",
+  },
+  {
+    id: 2,
+    name: "Budi Santoso",
+    role: "Software Engineer",
+    avatar: "/images/avatar-2.jpg",
+    emoji: "👨",
+    rating: 5,
+    review:
+      "Saya hampir setiap hari ke sini buat kerja remote. WiFi kencang, kopi enak, dan staf-nya sangat ramah. Cappuccino-nya the best!",
+  },
+  {
+    id: 3,
+    name: "Dewi Cahyani",
+    role: "Interior Designer",
+    avatar: "/images/avatar-3.jpg",
+    emoji: "👩‍🎨",
+    rating: 5,
+    review:
+      "Desain interiornya luar biasa dan kopi single origin-nya benar-benar terasa beda. Brewista jauh melebihi ekspektasi saya!",
+  },
+];

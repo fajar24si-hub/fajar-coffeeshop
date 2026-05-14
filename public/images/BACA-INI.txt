@@ -1,0 +1,16 @@
+Letakkan semua foto di folder ini (public/images/).
+
+Daftar foto yang dibutuhkan:
+- hero.jpg          → Background section Hero (1920x1080)
+- interior.jpg      → Foto interior kafe, section About (800x600)
+- espresso.jpg      → Menu: Espresso (400x400)
+- latte.jpg         → Menu: Caramel Latte (400x400)
+- cappuccino.jpg    → Menu: Cappuccino (400x400)
+- cold-brew.jpg     → Menu: Cold Brew (400x400)
+- frappe.jpg        → Menu: Mocha Frappe (400x400)
+- matcha.jpg        → Menu: Matcha Latte (400x400)
+- avatar-1.jpg      → Testimoni: Foto pelanggan 1 (200x200)
+- avatar-2.jpg      → Testimoni: Foto pelanggan 2 (200x200)
+- avatar-3.jpg      → Testimoni: Foto pelanggan 3 (200x200)
+
+Tanpa foto pun website tetap berjalan dengan emoji placeholder.
