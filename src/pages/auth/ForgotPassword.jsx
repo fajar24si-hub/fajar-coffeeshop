@@ -20,7 +20,7 @@ export default function ForgotPassword() {
         <div style={{ width: 52, height: 52, background: "rgba(212,150,58,0.1)", border: "1px solid rgba(212,150,58,0.2)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
           <FiMail color="#D4963A" size={22} />
         </div>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 800, color: "#F7ECD8", marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 800, color: "#0D0703", marginBottom: 8 }}>
           Lupa Password?
         </h1>
         <p style={{ color: "#7A6247", fontSize: 14, lineHeight: 1.6 }}>

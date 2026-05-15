@@ -1,56 +1,128 @@
 // src/layouts/AuthLayout.jsx
-import { Outlet, Link } from "react-router-dom";
-import { FaCoffee } from "react-icons/fa";
+import { Outlet } from "react-router-dom";
 
 export default function AuthLayout() {
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0D0703",
-      backgroundImage: "radial-gradient(ellipse 80% 60% at 50% 20%, rgba(212,150,58,0.1) 0%, transparent 60%)",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "32px 16px",
-      fontFamily: "'Inter', sans-serif",
-    }}>
-      {/* Logo */}
-      <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", marginBottom: 36 }}>
-        <div style={{ width: 38, height: 38, background: "#D4963A", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(212,150,58,0.35)" }}>
-          <FaCoffee color="#0D0703" size={17} />
-        </div>
-        <span style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: "1.3rem",
-          fontWeight: 800,
-          background: "linear-gradient(135deg, #F0C56A, #D4963A)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}>
-          Brewista
-        </span>
-      </Link>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "'Inter', sans-serif",
+        backgroundImage: "linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.5) 100%), url('/images/background-card.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "20px",
+      }}
+    >
+      {/* Main Card Container */}
+      <div
+        style={{
+          display: "flex",
+          background: "white",
+          borderRadius: "20px",
+          overflow: "hidden",
+          boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+          width: "100%",
+          maxWidth: "900px",
+          minHeight: "600px",
+        }}
+        className="auth-card-container"
+      >
+        {/* Left Side - Background Image */}
+        <div
+          style={{
+            flex: 1,
+            backgroundImage: "linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.4) 100%), url('/images/coffee-background.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          className="auth-left-side"
+        />
 
-      {/* Card */}
-      <div style={{
-        width: "100%",
-        maxWidth: 440,
-        background: "rgba(26,10,4,0.85)",
-        border: "1px solid rgba(212,150,58,0.15)",
-        borderRadius: 20,
-        padding: "36px 32px",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-      }}>
-        <Outlet />
+        {/* Right Side - Login Form */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "60px 40px",
+            overflow: "auto",
+            background: "#ffffff",
+          }}
+          className="auth-right-side"
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "380px",
+            }}
+          >
+            {/* Logo Section */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 40,
+              }}
+            >
+              <img
+                src="/logo.svg"
+                alt="Brewista Coffee"
+                style={{
+                  width: 60,
+                  height: 60,
+                }}
+              />
+            </div>
+
+            {/* Form Container */}
+            <Outlet />
+          </div>
+        </div>
       </div>
 
-      {/* Footer note */}
-      <p style={{ marginTop: 24, color: "#7A6247", fontSize: 12, textAlign: "center" }}>
-        © {new Date().getFullYear()} Brewista. All rights reserved.
-      </p>
+      {/* Responsive styles */}
+      <style>{`
+        @media (max-width: 1024px) {
+          .auth-card-container {
+            flex-direction: column !important;
+            max-width: 600px !important;
+          }
+          .auth-left-side {
+            display: none;
+          }
+          .auth-right-side {
+            padding: 40px 30px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .auth-card-container {
+            border-radius: 16px !important;
+          }
+          .auth-right-side {
+            padding: 30px 20px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .auth-card-container {
+            border-radius: 12px !important;
+          }
+          .auth-right-side {
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

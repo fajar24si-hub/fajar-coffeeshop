@@ -26,7 +26,7 @@ export default function Register() {
   return (
     <>
       <div style={{ textAlign: "center", marginBottom: 28 }}>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.75rem", fontWeight: 800, color: "#F7ECD8", marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.75rem", fontWeight: 800, color: "#0D0703", marginBottom: 8 }}>
           Buat Akun
         </h1>
         <p style={{ color: "#7A6247", fontSize: 14 }}>Bergabung dengan komunitas Brewista</p>
