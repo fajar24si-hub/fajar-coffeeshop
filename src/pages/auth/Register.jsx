@@ -12,7 +12,13 @@ export default function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => { setLoading(false); navigate("/"); }, 1500);
+    setTimeout(() => {
+      setLoading(false);
+      localStorage.setItem("authToken", "demo-token");
+      localStorage.setItem("userName", form.name);
+      localStorage.setItem("userEmail", form.email);
+      navigate("/");
+    }, 1500);
   };
 
   const inputStyle = {

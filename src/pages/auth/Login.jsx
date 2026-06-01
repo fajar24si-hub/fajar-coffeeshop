@@ -15,6 +15,16 @@ export default function Login() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      // Derive nama dari email (misal: fajar.ramadhan@gmail.com → Fajar Ramadhan)
+      const namePart = form.email.split("@")[0];
+      const name = namePart
+        .replace(/[._-]/g, " ")
+        .split(" ")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" ");
+      localStorage.setItem("authToken", "demo-token");
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userEmail", form.email);
       navigate("/admin");
     }, 1500);
   };
