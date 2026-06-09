@@ -7,6 +7,9 @@ import {
 } from "react-icons/fi";
 import AdminPageHeader from "../../components/admin/ui/AdminPageHeader";
 import AdminCard from "../../components/admin/ui/AdminCard";
+// ── Shadcn/Radix UI Components ─────────────────────────────────
+import { ToastProvider, Toast, useToast } from "../../components/ui/toast";
+import { LoyaltyProgress } from "../../components/ui/progress";
 
 // ─── Types ────────────────────────────────────────────────────
 /**
@@ -296,36 +299,14 @@ function TierBadge({ tier }) {
   );
 }
 
-/** Progress bar loyalty */
+/**
+ * Progress bar loyalty - menggunakan komponen Progress dari @radix-ui/react-progress
+ * Digantikan oleh LoyaltyProgress dari src/components/ui/progress.jsx
+ */
 function LoyaltyProgressBar({ points, tier }) {
-  const { progress, next } = getTierProgress(tier, points);
-  const current = TIER_THRESHOLDS[tier] ?? 0;
-  const barColor = tier === "Gold" ? "#F59E0B" : tier === "Silver" ? "#94A3B8" : "#EA580C";
-
   return (
     <div style={{ minWidth: 180 }}>
-      <div
-        style={{
-          height: 7,
-          background: "#E8E4E0",
-          borderRadius: 10,
-          overflow: "hidden",
-          marginBottom: 6,
-        }}
-      >
-        <div
-          style={{
-            height: "100%",
-            width: `${progress}%`,
-            background: `linear-gradient(90deg, ${barColor}aa, ${barColor})`,
-            borderRadius: 10,
-            transition: "width 0.6s ease",
-          }}
-        />
-      </div>
-      <p style={{ margin: 0, fontSize: "0.74rem", color: "#9A8478" }}>
-        {points - current} / {next.required - current} poin → {next.label}
-      </p>
+      <LoyaltyProgress points={points} tier={tier} showLabel={true} />
     </div>
   );
 }
@@ -542,6 +523,8 @@ export default function Customers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [highlightedId, setHighlightedId] = useState(null);
+  // ── Toast state (Komponen 1: @radix-ui/react-toast) ──
+  const { toasts, toast, dismiss } = useToast();
 
   // Stats
   const totalCustomers = CUSTOMERS.length;
@@ -594,11 +577,35 @@ export default function Customers() {
   const handleDetail = (customer) => {
     setHighlightedId(customer.id);
     setSelectedCustomer(customer);
+    // Tampilkan toast notifikasi saat membuka detail pelanggan
+    toast({
+      title: `Detail: ${customer.name}`,
+      description: `Tier ${customer.tier} · ${customer.points.toLocaleString("id-ID")} poin`,
+      variant: customer.tier === "Gold" ? "warning" : customer.tier === "Silver" ? "default" : "success",
+    });
   };
 
   const handleCloseModal = () => {
     setSelectedCustomer(null);
     setHighlightedId(null);
+  };
+
+  // Handler tombol Tambah Pelanggan - tampilkan toast info
+  const handleAddCustomer = () => {
+    toast({
+      title: "Fitur Segera Hadir",
+      description: "Form tambah pelanggan sedang dalam pengembangan.",
+      variant: "default",
+    });
+  };
+
+  // Handler tombol Edit - tampilkan toast
+  const handleEditCustomer = (customer) => {
+    toast({
+      title: `Edit: ${customer.name}`,
+      description: "Fitur edit sedang dalam pengembangan.",
+      variant: "warning",
+    });
   };
 
   // ── Tab button style ──
@@ -781,6 +788,7 @@ export default function Customers() {
 
                 <button
                   id="add-customer-btn"
+                  onClick={handleAddCustomer}
                   style={{
                     marginLeft: 8,
                     padding: "8px 18px",
@@ -845,6 +853,7 @@ export default function Customers() {
                           isEven={isEven}
                           isHighlighted={isHighlighted}
                           onDetail={() => handleDetail(customer)}
+                          onEdit={() => handleEditCustomer(customer)}
                         />
                       );
                     })
@@ -967,12 +976,26 @@ export default function Customers() {
       {selectedCustomer && (
         <CustomerDetailModal customer={selectedCustomer} onClose={handleCloseModal} />
       )}
+
+      {/* ── TOAST NOTIFICATIONS (Komponen 1: @radix-ui/react-toast) ── */}
+      <ToastProvider>
+        {toasts.map((t) => (
+          <Toast
+            key={t.id}
+            open={t.open}
+            onOpenChange={(open) => { if (!open) dismiss(t.id); }}
+            title={t.title}
+            description={t.description}
+            variant={t.variant}
+          />
+        ))}
+      </ToastProvider>
     </div>
   );
 }
 
 // ─── CustomerRow ───────────────────────────────────────────────
-function CustomerRow({ customer, isEven, isHighlighted, onDetail }) {
+function CustomerRow({ customer, isEven, isHighlighted, onDetail, onEdit }) {
   const [hovered, setHovered] = useState(false);
 
   const rowBg = isHighlighted
@@ -1067,6 +1090,7 @@ function CustomerRow({ customer, isEven, isHighlighted, onDetail }) {
           </button>
           <button
             id={`edit-btn-${customer.id}`}
+            onClick={onEdit}
             style={{
               width: 32,
               height: 32,
