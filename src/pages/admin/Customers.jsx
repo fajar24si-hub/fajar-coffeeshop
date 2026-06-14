@@ -10,6 +10,8 @@ import AdminCard from "../../components/admin/ui/AdminCard";
 // ── Shadcn/Radix UI Components ─────────────────────────────────
 import { ToastProvider, Toast, useToast } from "../../components/ui/toast";
 import { LoyaltyProgress } from "../../components/ui/progress";
+// ── Shared Customer Data (200 pelanggan) ───────────────────────
+import { CUSTOMERS } from "../../data/customersData";
 
 // ─── Types ────────────────────────────────────────────────────
 /**
@@ -26,95 +28,6 @@ import { LoyaltyProgress } from "../../components/ui/progress";
  *   lastVisit: string;
  * }} Customer
  */
-
-// ─── Mock Data ────────────────────────────────────────────────
-/** @type {Customer[]} */
-const CUSTOMERS = [
-  {
-    id: 1,
-    name: "Siti Rahma Dewi",
-    email: "siti.rahma@email.com",
-    phone: "0812-3456-7890",
-    joined: "2023-01-15",
-    visits: 87,
-    spent: 4_250_000,
-    tier: "Gold",
-    points: 3_420,
-    lastVisit: "2024-05-30",
-  },
-  {
-    id: 2,
-    name: "Budi Santoso",
-    email: "budi.santoso@email.com",
-    phone: "0856-9876-5432",
-    joined: "2023-03-22",
-    visits: 45,
-    spent: 1_875_000,
-    tier: "Silver",
-    points: 1_500,
-    lastVisit: "2024-05-28",
-  },
-  {
-    id: 3,
-    name: "Aulia Fitri",
-    email: "aulia.fitri@gmail.com",
-    phone: "0821-1122-3344",
-    joined: "2023-07-10",
-    visits: 23,
-    spent: 820_000,
-    tier: "Bronze",
-    points: 650,
-    lastVisit: "2024-05-25",
-  },
-  {
-    id: 4,
-    name: "Rizky Ardiansyah",
-    email: "rizky.ardi@email.com",
-    phone: "0878-5566-7788",
-    joined: "2022-11-05",
-    visits: 112,
-    spent: 5_600_000,
-    tier: "Gold",
-    points: 4_480,
-    lastVisit: "2024-06-01",
-  },
-  {
-    id: 5,
-    name: "Mega Pratiwi",
-    email: "mega.prati@email.com",
-    phone: "0831-2233-4455",
-    joined: "2024-01-08",
-    visits: 12,
-    spent: 380_000,
-    tier: "Bronze",
-    points: 304,
-    lastVisit: "2024-05-20",
-  },
-  {
-    id: 6,
-    name: "Dimas Kurniawan",
-    email: "dimas.kurn@email.com",
-    phone: "0813-6677-8899",
-    joined: "2023-05-18",
-    visits: 61,
-    spent: 2_430_000,
-    tier: "Silver",
-    points: 1_944,
-    lastVisit: "2024-05-31",
-  },
-  {
-    id: 7,
-    name: "Nadia Husna",
-    email: "nadia.husna@email.com",
-    phone: "0852-0011-2233",
-    joined: "2023-09-30",
-    visits: 38,
-    spent: 1_125_000,
-    tier: "Silver",
-    points: 1_125,
-    lastVisit: "2024-05-29",
-  },
-];
 
 // ─── Helpers ──────────────────────────────────────────────────
 /**
