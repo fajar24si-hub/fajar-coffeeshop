@@ -2,27 +2,30 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FiMenu, FiX, FiHome, FiShoppingCart, FiCoffee,
-  FiUsers, FiPackage, FiUserCheck, FiLogOut,
+  FiUsers, FiPackage, FiUserCheck, FiLogOut, FiSettings,
 } from "react-icons/fi";
 import AdminNavLink from "./AdminNavLink";
+import { useAuth } from "../../../context/AuthContext";
 
 const menuItems = [
-  { icon: FiHome,        label: "Dashboard", path: "/admin" },
-  { icon: FiShoppingCart,label: "Orders",    path: "/admin/orders" },
-  { icon: FiCoffee,      label: "Menu",      path: "/admin/menu" },
-  { icon: FiUsers,       label: "Customers", path: "/admin/customers" },
-  { icon: FiPackage,     label: "Inventory", path: "/admin/inventory" },
-  { icon: FiUserCheck,   label: "Staff",     path: "/admin/staff" },
+  { icon: FiHome,         label: "Dashboard",  path: "/admin" },
+  { icon: FiShoppingCart, label: "Orders",     path: "/admin/orders" },
+  { icon: FiCoffee,       label: "Menu",       path: "/admin/menu" },
+  { icon: FiUsers,        label: "Customers",  path: "/admin/customers" },
+  { icon: FiPackage,      label: "Inventory",  path: "/admin/inventory" },
+  { icon: FiUserCheck,    label: "Staff",      path: "/admin/staff" },
+  { icon: FiSettings,     label: "Akun",       path: "/admin/settings" },
 ];
 
 export default function AdminSidebar({ sidebarOpen, setSidebarOpen }) {
   const location  = useLocation();
   const navigate  = useNavigate();
+  const { logout } = useAuth();
 
   const isActive = (path) => location.pathname === path;
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 
@@ -102,8 +105,12 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }) {
           />
         ))}
 
+        {/* Divider */}
+        <div style={{ margin: "12px 16px", height: "1px", background: "#E8E4E0" }} />
+
         {/* Logout */}
         <button
+          id="sidebar-logout-btn"
           onClick={handleLogout}
           style={{
             display: "flex",
@@ -120,6 +127,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }) {
             fontSize: "0.95rem",
             fontWeight: 500,
             borderLeft: "3px solid transparent",
+            justifyContent: sidebarOpen ? "flex-start" : "center",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = "rgba(231, 76, 60, 0.1)";

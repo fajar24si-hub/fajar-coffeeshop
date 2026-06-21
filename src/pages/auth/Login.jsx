@@ -1,32 +1,39 @@
 // src/pages/auth/Login.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "", rememberMe: false });
+  const [form, setForm]       = useState({ email: "", password: "", rememberMe: false });
   const [showPass, setShowPass] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading]  = useState(false);
+  const [error, setError]      = useState("");
+  const navigate               = useNavigate();
+  const { login }              = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      // Derive nama dari email (misal: fajar.ramadhan@gmail.com → Fajar Ramadhan)
-      const namePart = form.email.split("@")[0];
-      const name = namePart
-        .replace(/[._-]/g, " ")
-        .split(" ")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ");
-      localStorage.setItem("authToken", "demo-token");
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userEmail", form.email);
+
+    try {
+      await login(form.email, form.password);
       navigate("/admin");
-    }, 1500);
+    } catch (err) {
+      // Tampilkan pesan error yang user-friendly
+      const msg = err.message || "";
+      if (msg.includes("Invalid login credentials") || msg.includes("invalid_credentials")) {
+        setError("Email atau password salah. Silakan coba lagi.");
+      } else if (msg.includes("Email not confirmed")) {
+        setError("Email belum dikonfirmasi. Cek inbox email kamu.");
+      } else {
+        setError(msg || "Terjadi kesalahan saat login.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,6 +55,27 @@ export default function Login() {
           Enter your credentials below
         </p>
       </div>
+
+      {/* Error Alert */}
+      {error && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 16px",
+            background: "#FEF2F2",
+            border: "1px solid #FECACA",
+            borderRadius: 8,
+            marginBottom: 20,
+            color: "#DC2626",
+            fontSize: "0.9rem",
+          }}
+        >
+          <FiAlertCircle size={18} style={{ flexShrink: 0 }} />
+          <span>{error}</span>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         {/* Email Input */}

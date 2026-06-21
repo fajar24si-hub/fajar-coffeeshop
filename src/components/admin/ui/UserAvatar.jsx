@@ -1,4 +1,6 @@
 // src/components/admin/ui/UserAvatar.jsx
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 /**
  * Membuat inisial dari nama lengkap.
@@ -11,10 +13,19 @@ function getInitials(name = "") {
   return parts[0][0]?.toUpperCase() ?? "?";
 }
 
-export default function UserAvatar({ name, role = "Admin" }) {
-  // Baca dari localStorage jika name tidak di-pass sebagai prop
-  const displayName = name ?? localStorage.getItem("userName") ?? "Admin";
+export default function UserAvatar({ name: nameProp, role: roleProp }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Gunakan data dari AuthContext, fallback ke prop atau localStorage
+  const displayName = nameProp ?? user?.name ?? localStorage.getItem("userName") ?? "Admin";
+  const displayRole = roleProp ?? (user?.role === "admin" ? "Admin" : "Customer");
   const initials    = getInitials(displayName);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -40,9 +51,39 @@ export default function UserAvatar({ name, role = "Admin" }) {
           {displayName}
         </p>
         <p style={{ margin: 0, fontSize: "0.75rem", color: "#9D8B74" }}>
-          {role}
+          {displayRole}
         </p>
       </div>
+      {/* Tombol Logout */}
+      <button
+        onClick={handleLogout}
+        title="Logout"
+        style={{
+          marginLeft: 4,
+          background: "none",
+          border: "1px solid #E4D5C3",
+          borderRadius: 6,
+          padding: "4px 10px",
+          fontSize: "0.75rem",
+          color: "#9D8B74",
+          cursor: "pointer",
+          fontFamily: "'Inter', sans-serif",
+          fontWeight: 500,
+          transition: "all 0.2s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = "#FEF3E2";
+          e.currentTarget.style.borderColor = "#D4963A";
+          e.currentTarget.style.color = "#D4963A";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = "none";
+          e.currentTarget.style.borderColor = "#E4D5C3";
+          e.currentTarget.style.color = "#9D8B74";
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 }
