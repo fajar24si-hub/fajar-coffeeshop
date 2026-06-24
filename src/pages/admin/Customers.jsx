@@ -247,62 +247,45 @@ function UserFormModal({ editUser, onClose, onSaved }) {
         const { error: upErr } = await supabase.from("users").update(updates).eq("id", editUser.id);
         if (upErr) throw upErr;
       } else {
-        // CREATE new user via Supabase Auth + insert profile
+        // CREATE new user via Supabase Auth + update profile (karena insert ditangani trigger)
         if (!form.password || form.password.length < 6) {
           throw new Error("Password minimal 6 karakter.");
         }
-        const { data: authData, error: authErr } = await supabase.auth.admin
-          ? // jika admin key: gunakan admin.createUser
-            { data: null, error: new Error("use_anon") }
-          : await supabase.auth.signUp({ email: form.email, password: form.password, options: { data: { name: form.name } } });
+        
+        const { data: authData, error: authErr } = await supabase.auth.signUp({ 
+          email: form.email, 
+          password: form.password, 
+          options: { data: { name: form.name, phone: form.phone } } 
+        });
 
-        // Jika pakai anon key, gunakan signUp
-        if (authErr?.message === "use_anon" || !authData) {
-          const { data: d2, error: e2 } = await supabase.auth.signUp({
-            email: form.email,
-            password: form.password,
-            options: { data: { name: form.name } },
-          });
-          if (e2) throw e2;
-          if (d2?.user) {
-            const { error: profErr } = await supabase.from("users").insert({
-              id:     d2.user.id,
-              name:   form.name,
-              email:  form.email,
-              phone:  form.phone,
-              role:   form.role,
-              tier:   form.tier,
-              points: Number(form.points),
-              visits: Number(form.visits),
-              spent:  Number(form.spent),
-              joined: new Date().toISOString().split("T")[0],
-            });
-            if (profErr) throw profErr;
-          }
-        } else {
-          if (authErr) throw authErr;
-          if (authData?.user) {
-            const { error: profErr } = await supabase.from("users").insert({
-              id:     authData.user.id,
-              name:   form.name,
-              email:  form.email,
-              phone:  form.phone,
-              role:   form.role,
-              tier:   form.tier,
-              points: Number(form.points),
-              visits: Number(form.visits),
-              spent:  Number(form.spent),
-              joined: new Date().toISOString().split("T")[0],
-            });
-            if (profErr) throw profErr;
+        if (authErr) throw authErr;
+
+        if (authData?.user) {
+          // Trigger database otomatis melakukan INSERT. Kita cukup UPDATE field yang tidak diset trigger.
+          const { error: profErr } = await supabase.from("users").update({
+            role:   form.role,
+            tier:   form.tier,
+            points: Number(form.points),
+            visits: Number(form.visits),
+            spent:  Number(form.spent),
+          }).eq("id", authData.user.id);
+          
+          if (profErr) {
+            console.warn("Gagal update profil tambahan:", profErr);
           }
         }
       }
       onSaved();
     } catch (err) {
-      const msg = err.message || "";
-      if (msg.includes("already registered")) setError("Email sudah terdaftar.");
-      else setError(msg || "Terjadi kesalahan.");
+      console.error("Add user error:", err);
+      const msg = err.message || JSON.stringify(err);
+      if (msg.includes("already registered") || msg.includes("already been registered")) {
+        setError("Email sudah terdaftar.");
+      } else if (msg === "{}" || !msg) {
+        setError("Terjadi kesalahan sistem (error kosong).");
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
