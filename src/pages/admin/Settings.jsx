@@ -184,19 +184,31 @@ function AddUserModal({ onClose, onAdded }) {
     if (form.password.length < 6) { setError("Password minimal 6 karakter."); return; }
     setLoading(true);
     try {
-      const { data, error: authErr } = await supabase.auth.signUp({
+      // Gunakan temporary client agar admin tidak terlogout
+      const { createClient } = await import("@supabase/supabase-js");
+      const tempClient = createClient(
+        import.meta.env.VITE_SUPABASE_URL || "https://nfgevujfxebfjqdcbgkc.supabase.co",
+        import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mZ2V2dWpmeGViZmpxZGNiZ2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNDQ5MDMsImV4cCI6MjA5NzYyMDkwM30._hacsfyE4eIPsHcHC1cKq_8AflMdk_TcShLQcbFK1Ss",
+        { auth: { persistSession: false, autoRefreshToken: false } }
+      );
+
+      const { data, error: authErr } = await tempClient.auth.signUp({
         email: form.email,
         password: form.password,
         options: { data: { name: form.name } },
       });
       if (authErr) throw authErr;
       if (data.user) {
-        const { error: profErr } = await supabase.from("users").insert({
-          id: data.user.id, name: form.name, email: form.email,
-          phone: form.phone, role: form.role, tier: form.tier,
-          points: 0, visits: 0, spent: 0,
-          joined: new Date().toISOString().split("T")[0],
-        });
+        // Gunakan update karena profil sudah di-insert otomatis oleh trigger database
+        const { error: profErr } = await supabase.from("users").update({
+          phone: form.phone, 
+          role: form.role, 
+          tier: form.tier,
+          points: 0, 
+          visits: 0, 
+          spent: 0,
+        }).eq("id", data.user.id);
+        
         if (profErr) throw profErr;
         onAdded();
       }
