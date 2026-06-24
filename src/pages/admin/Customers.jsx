@@ -246,6 +246,7 @@ function UserFormModal({ editUser, onClose, onSaved }) {
         };
         const { error: upErr } = await supabase.from("users").update(updates).eq("id", editUser.id);
         if (upErr) throw upErr;
+      } else {
         // CREATE new user via Supabase Auth + update profile
         if (!form.password || form.password.length < 6) {
           throw new Error("Password minimal 6 karakter.");
