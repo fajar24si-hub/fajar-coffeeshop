@@ -22,9 +22,10 @@ export default function Login() {
       await login(form.email, form.password);
       navigate("/admin");
     } catch (err) {
-      // Tampilkan pesan error yang user-friendly
       const msg = err.message || "";
-      if (msg.includes("Invalid login credentials") || msg.includes("invalid_credentials")) {
+      if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("fetch")) {
+        setError("Tidak dapat terhubung ke server. Periksa koneksi internet kamu.");
+      } else if (msg.includes("Invalid login credentials") || msg.includes("invalid_credentials")) {
         setError("Email atau password salah. Silakan coba lagi.");
       } else if (msg.includes("Email not confirmed")) {
         setError("Email belum dikonfirmasi. Cek inbox email kamu.");

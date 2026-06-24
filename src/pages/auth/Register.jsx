@@ -40,7 +40,9 @@ export default function Register() {
       setTimeout(() => navigate("/login"), 2500);
     } catch (err) {
       const msg = err.message || "";
-      if (msg.includes("already registered") || msg.includes("already been registered")) {
+      if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("fetch")) {
+        setError("Tidak dapat terhubung ke server. Pastikan koneksi internet kamu aktif dan coba lagi.");
+      } else if (msg.includes("already registered") || msg.includes("already been registered")) {
         setError("Email ini sudah terdaftar. Silakan login.");
       } else if (msg.includes("Password should be at least")) {
         setError("Password minimal 6 karakter.");
