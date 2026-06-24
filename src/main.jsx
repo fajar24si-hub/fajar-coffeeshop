@@ -11,6 +11,55 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import "./assets/tailwind.css";
 
+// ── Error Boundary untuk mencegah layar hitam ────────────────
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, info) {
+    console.error("[ErrorBoundary]", error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: "100vh", background: "#0D0703", display: "flex",
+          alignItems: "center", justifyContent: "center", flexDirection: "column",
+          fontFamily: "'Inter', sans-serif", color: "#F7ECD8", padding: 24, textAlign: "center",
+        }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>☕</div>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#D4963A", marginBottom: 12 }}>
+            Terjadi Kesalahan
+          </h2>
+          <p style={{ color: "#7A6247", maxWidth: 400, lineHeight: 1.6, marginBottom: 24 }}>
+            Maaf, ada error teknis. Silakan refresh halaman atau coba lagi.
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              background: "linear-gradient(90deg, #b87a28, #F0C56A, #D4963A)",
+              border: "none", borderRadius: 999, padding: "12px 28px",
+              color: "#0D0703", fontWeight: 700, fontSize: 14, cursor: "pointer",
+            }}
+          >
+            Refresh Halaman
+          </button>
+          {import.meta.env.DEV && (
+            <pre style={{ marginTop: 24, color: "#EF4444", fontSize: 12, textAlign: "left", maxWidth: 600, overflow: "auto" }}>
+              {this.state.error?.toString()}
+            </pre>
+          )}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // ── React.lazy untuk code splitting ──────────────────────────
 const Home           = lazy(() => import("./pages/Home"));
 const Login          = lazy(() => import("./pages/auth/Login"));
@@ -73,6 +122,8 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
