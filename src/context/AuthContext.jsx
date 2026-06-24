@@ -60,28 +60,25 @@ export function AuthProvider({ children }) {
   // ── Register ──────────────────────────────────────────────────
   async function register(name, email, password, phone = "") {
     // 1. Buat akun di Supabase Auth
+    //    Trigger database akan otomatis buat profil di tabel users
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { name } },
+      options: { data: { name, phone } },
     });
     if (authError) throw authError;
 
-    // 2. Simpan profil ke tabel users
-    if (authData.user) {
-      const { error: profileError } = await supabase.from("users").insert({
-        id: authData.user.id,
-        name,
-        email,
-        phone,
-        role: "customer",
-        tier: "Bronze",
-        points: 0,
-        visits: 0,
-        spent: 0,
-        joined: new Date().toISOString().split("T")[0],
-      });
-      if (profileError) throw profileError;
+    // 2. Coba update phone jika trigger sudah buat profil
+    //    (trigger membaca name dari metadata, tapi phone perlu diupdate)
+    if (authData.user && phone) {
+      const { error: updateError } = await supabase
+        .from("users")
+        .update({ phone })
+        .eq("id", authData.user.id);
+      // Abaikan error update — profil tetap dibuat oleh trigger
+      if (updateError) {
+        console.warn("[Register] Profil dibuat via trigger, update phone gagal:", updateError.message);
+      }
     }
 
     return authData;
