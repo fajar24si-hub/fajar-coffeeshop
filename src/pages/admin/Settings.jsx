@@ -9,6 +9,7 @@ import {
 import AdminPageHeader from "../../components/admin/ui/AdminPageHeader";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "../../context/AuthContext";
+import { createClient } from "@supabase/supabase-js";
 
 // ─── Helpers ──────────────────────────────────────────────────
 function getInitials(name = "") {
@@ -185,7 +186,6 @@ function AddUserModal({ onClose, onAdded }) {
     setLoading(true);
     try {
       // Gunakan temporary client agar admin tidak terlogout
-      const { createClient } = await import("@supabase/supabase-js");
       const tempClient = createClient(
         import.meta.env.VITE_SUPABASE_URL || "https://nfgevujfxebfjqdcbgkc.supabase.co",
         import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mZ2V2dWpmeGViZmpxZGNiZ2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNDQ5MDMsImV4cCI6MjA5NzYyMDkwM30._hacsfyE4eIPsHcHC1cKq_8AflMdk_TcShLQcbFK1Ss",
